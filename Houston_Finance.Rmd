@@ -1,0 +1,148 @@
+---
+title: "Houston_Finance"
+output: html_document
+date: "2024-06-03"
+---
+
+#RSW comment: I'm adding the pitch here so you have everything in one place.
+
+Name: Michael Zhang
+Contact Info: 832-726-2026
+Date: 6/3/2024
+Who’s meddling in your elections:
+
+
+A minority of large donors have always held huge influence in Houston elections. In the recent mayoral race, current mayor of Houston John Whitmire held a huge advantage during the race with his “war chest” campaign funding. With ##$## 9 million dollars from donations, his funding pool was 30 times the size of any of his competitors’ in the Houston mayoral race. ##(attribution)
+
+This trend doesn’t end with Whitmire either. Various incumbent Houston city council members, judges, and elected constables all have records showing large donations from unknown, and often ## out-of-state## out of state donors. Yet little information exists online about who these donors are, and more importantly, what their motivations are to funding local Houston politicians. 
+
+Records: ##explain where you are getting the data and provide a link ## By examining a datasheet listing all the candidates, amounts, and donor information, we can hopefully shed some more light on the background and motivation of local political donors. While the sheet has lacked sufficient updating, and its most recent update was in 2018, a lot of the individuals listed in the document are still currently in office, and it would be interesting to see where they get all their campaign money.
+
+Visuals: A map plotting out all the locations of people who have contributed to local elections in Houston politics, just from a preliminary examination, it looks like there are alot of donors who are from cities outside the state like San Francisco, Michigan, etc.
+
+Impact: This project will hopefully improve transparency on who our local elected officials are funded by and how much influence these donors have over their political decisions.
+
+Surprising findings from the story: 
+1. It was interesting to see that there are a high number of donors from outside state lines. While some could be just friends of the politicians, some of the donors were CEOs of large companies, which would be interesting to research further, and try to find how they influence politicians' decisions.
+
+2. There were also a high number of donors from big oil companies, which is to be expected for Texas, but it would be interesting to see how the city council members voted on oil legislation as well. 
+
+3. Also this could be another story, covering how the lack of transparency for this data. The excel sheet I retrieved was not updated properly, and when I called the city of Houston secretary, they didn’t even know the database listed on their website existed. 
+
+Estimated delivery: 
+June 10-15
+
+Question: Who is funding local Houston political candidates?
+
+installing basic packages if needed
+
+```{r}
+  install.packages("openxlsx")
+install.packages("tidyverse")
+install.packages("rio")
+install.packages("janitor")
+install.packages("dplyr")
+```
+
+## R Markdown
+
+loading in necessary packages
+```{r}
+library(tidyverse)
+library(rio)
+library(janitor)
+library(dplyr)
+library(openxlsx)
+```
+
+reading in the data
+
+```{r}
+Campaign_data <- read_csv("campaign_finance.csv")
+```
+
+#RSW comment - let's figure out what this limit is all about: Exceeded $500 limit
+#RSW comment - 8th day before election
+
+
+looking at summary of data
+```{r}
+head(Campaign_data)
+
+#RSW comment - look at this table below on the details of the types of donations. This is important to know these different categories
+Campaign_data %>% 
+   count(MasterTransactionType) %>% 
+  arrange(desc(n))
+
+```
+now I filtered for current incumbents that appeared on the campaign spreadsheet, creating a new spreadsheet for each individuals table
+
+Some of the names had multiple formats, so I have some variables listing their different formats
+
+#RSW comment - I would do a single summary table and have these candidates and their money for a single year
+
+```{r}
+Sallie_Alcorn <- Campaign_data %>% filter(CandidateFullName %in% "Sallie Alcorn")
+Willie_R_Davis <- Campaign_data %>% filter(CandidateFullName == "Willie R Davis")
+Martha_Castex_Tatum <- Campaign_data %>% filter(CandidateFullName == "Martha Castex-Tatum")
+Mr_Edward_J_Pollard <- Campaign_data %>% filter(CandidateFullName == "Mr. Edward J Pollard")
+Adrian_Garcia <- Campaign_data %>% filter(CandidateFullName == "Adrian Garcia")
+Dr_Carolyn_Evans_Shabazz <- Campaign_data %>% filter(CandidateFullName == "Dr. Carolyn Evans-Shabazz")
+amy_peck_variants <- c("Ms. Amy Peck", "Ms. Amy L Peck", "Mrs. Amy Peck")
+Amy_Peck <- Campaign_data %>% filter(CandidateFullName %in% amy_peck_variants)
+edward_gonzalez_variants <- c("Mr. Edward Ed Gonzalez", "Edward Edward Gonzalez", "Edward Ed Gonzalez")
+Edward_Gonzalez <- Campaign_data %>% filter(CandidateFullName %in% edward_gonzalez_variants)
+
+```
+
+
+sort the data by donation amount, I also had to change the column type from character to int:
+
+```{r}
+# Amy_Peck
+Amy_Peck$TransactionAmount <- as.numeric(Amy_Peck$TransactionAmount)
+Amy_Peck <- Amy_Peck %>% arrange(desc(TransactionAmount))
+
+# Willie_R_Davis
+Willie_R_Davis$TransactionAmount <- as.numeric(Willie_R_Davis$TransactionAmount)
+Willie_R_Davis <- Willie_R_Davis %>% arrange(desc(TransactionAmount))
+
+# Martha_Castex_Tatum
+Martha_Castex_Tatum$TransactionAmount <- as.numeric(Martha_Castex_Tatum$TransactionAmount)
+Martha_Castex_Tatum <- Martha_Castex_Tatum %>% arrange(desc(TransactionAmount))
+
+# Mr_Edward_J_Pollard
+Mr_Edward_J_Pollard$TransactionAmount <- as.numeric(Mr_Edward_J_Pollard$TransactionAmount)
+Mr_Edward_J_Pollard <- Mr_Edward_J_Pollard %>% arrange(desc(TransactionAmount))
+
+# Adrian_Garcia
+Adrian_Garcia$TransactionAmount <- as.numeric(Adrian_Garcia$TransactionAmount)
+Adrian_Garcia <- Adrian_Garcia %>% arrange(desc(TransactionAmount))
+
+# Dr_Carolyn_Evans_Shabazz
+Dr_Carolyn_Evans_Shabazz$TransactionAmount <- as.numeric(Dr_Carolyn_Evans_Shabazz$TransactionAmount)
+Dr_Carolyn_Evans_Shabazz <- Dr_Carolyn_Evans_Shabazz %>% arrange(desc(TransactionAmount))
+
+# Edward_Gonzalez
+Edward_Gonzalez$TransactionAmount <- as.numeric(Edward_Gonzalez$TransactionAmount)
+Edward_Gonzalez <- Edward_Gonzalez %>% arrange(desc(TransactionAmount))
+
+# Sallie_Alcorn
+Sallie_Alcorn$TransactionAmount <- as.numeric(Sallie_Alcorn$TransactionAmount)
+Sallie_Alcorn <- Sallie_Alcorn %>% arrange(desc(TransactionAmount))
+```
+
+
+Check that the candidate spreadsheet was properly sorted based on the transaction amount
+
+
+```{r}
+result <- Sallie_Alcorn %>% 
+  select(CampaignYear, TransactionAmount, TransactionPartyFullName, TransactionPartyEmployer, OfficeSought, TransactionAddressStreet, TransactionPartyCity, TransactionPartyOccupation) %>% 
+  group_by(TransactionAmount)
+write.xlsx(result, file = "Sallie_Alcorn_Transactions.xlsx")
+
+
+```
+
+End product: Each of the incumbent candidates has their own spreadsheet of donors, sorted by the transaction amount from highest to lowest
