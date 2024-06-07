@@ -8,13 +8,15 @@ date: "2024-06-03"
 Name: Michael Zhang
 Contact Info: 832-726-2026
 Date: 6/3/2024
+
 # Who’s meddling in your elections:
 
 
-A minority of large donors have always held huge influence in Houston elections. In the recent mayoral race, current mayor of Houston John Whitmire held a huge advantage during the race with his “war chest” campaign funding. With ##$## 9 million dollars from donations, his funding pool was [30 times](https://www.houstonchronicle.com/politics/houston/article/whitmire-s-spending-houston-mayor-race-double-18453375.php) the size of any of his competitors’ in the Houston mayoral race.
-
+A minority of large donors have always held huge influence in Houston elections. In the recent mayoral race, current mayor of Houston John Whitmire held a huge advantage during the race with his “war chest” campaign funding. With $9 million dollars from donations, his funding pool was [30 times](https://www.houstonchronicle.com/politics/houston/article/whitmire-s-spending-houston-mayor-race-double-18453375.php) the size of any of his competitors’ in the Houston mayoral race.
 
 This trend doesn’t end with Whitmire either. Various incumbent Houston city council members, judges, and elected constables all have records showing large donations from unknown, and often out-of-state donors. Yet little information exists online about who these donors are, and more importantly, what their motivations are to funding local Houston politicians. 
+
+<iframe title="Houston political donations vs outside political donations" aria-label="Grouped Columns" id="datawrapper-chart-fVqiA" src="https://datawrapper.dwcdn.net/fVqiA/3/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="481" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();</script>
 
 Records: The data for this project comes from [The City of Houston Open Data](https://data.houstontx.gov/), which is updated and maintained by the City Secretary's Office. The excel sheet lists a detailed history of campaign finance transactions, containing  candidates, amounts, and donor information, from a period of 2007-2019. 
 
@@ -24,8 +26,14 @@ Visuals: A map plotting out all the locations of people who have contributed to 
 
 Impact: This project will hopefully improve transparency on who our local elected officials are funded by and how much influence these donors have over their political decisions.
 
-Surprising findings from the story: 
-1. It was interesting to see that there are a high number of donors from outside state lines. While some could be just friends of the politicians, some of the donors were CEOs of large companies, which would be interesting to research further, and try to find how they influence politicians' decisions.
+## Surprising findings from the story: 
+
+
+
+<iframe title="Percentage of out of city contributions to politican campaigns" aria-label="Column Chart" id="datawrapper-chart-QEBOz" src="https://datawrapper.dwcdn.net/QEBOz/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="470" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
+</script>
+
+1. It was interesting to see that there are a high number of donors from outside the city lines. While some could be just friends of the politicians, some of the donors were CEOs of large companies, which would be interesting to research further, and try to find how they influence politicians' decisions.
 
 2. There were also a high number of donors from big oil companies, which is to be expected for Texas, but it would be interesting to see how the city council members voted on oil legislation as well. 
 
@@ -254,11 +262,3 @@ write.csv(InCity_OutCity_comparison, "inCity_outCity_comparison.csv", row.names 
 ```
 
 
-the graphs displayed using data wrapper: 
-
-<iframe title="Percentage of out of city contributions to politican campaigns" aria-label="Column Chart" id="datawrapper-chart-QEBOz" src="https://datawrapper.dwcdn.net/QEBOz/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="470" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
-</script>
-
-<iframe title="Outside city to inside city campaign contributions" aria-label="Grouped Columns" id="datawrapper-chart-fVqiA" src="https://datawrapper.dwcdn.net/fVqiA/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="481" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();</script>
-
-The following graphs highlight a couple of these candidates, especially Adrian Garcia, who have high out of city campaign donators, it would be interesting to see who these people are. 

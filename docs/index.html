@@ -355,13 +355,14 @@ display: none;
 </div>
 
 
-<p>Name: Michael Zhang Contact Info: 832-726-2026 Date: 6/3/2024 # Who’s
-meddling in your elections:</p>
+<p>Name: Michael Zhang Contact Info: 832-726-2026 Date: 6/3/2024</p>
+<div id="whos-meddling-in-your-elections" class="section level1">
+<h1>Who’s meddling in your elections:</h1>
 <p>A minority of large donors have always held huge influence in Houston
 elections. In the recent mayoral race, current mayor of Houston John
 Whitmire held a huge advantage during the race with his “war chest”
-campaign funding. With ##$## 9 million dollars from donations, his
-funding pool was <a href="https://www.houstonchronicle.com/politics/houston/article/whitmire-s-spending-houston-mayor-race-double-18453375.php">30
+campaign funding. With $9 million dollars from donations, his funding
+pool was <a href="https://www.houstonchronicle.com/politics/houston/article/whitmire-s-spending-houston-mayor-race-double-18453375.php">30
 times</a> the size of any of his competitors’ in the Houston mayoral
 race.</p>
 <p>This trend doesn’t end with Whitmire either. Various incumbent
@@ -370,6 +371,9 @@ records showing large donations from unknown, and often out-of-state
 donors. Yet little information exists online about who these donors are,
 and more importantly, what their motivations are to funding local
 Houston politicians.</p>
+<iframe title="Houston political donations vs outside political donations" aria-label="Grouped Columns" id="datawrapper-chart-fVqiA" src="https://datawrapper.dwcdn.net/fVqiA/3/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="481" data-external="1">
+</iframe>
+<script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();</script>
 <p>Records: The data for this project comes from <a href="https://data.houstontx.gov/">The City of Houston Open Data</a>,
 which is updated and maintained by the City Secretary’s Office. The
 excel sheet lists a detailed history of campaign finance transactions,
@@ -389,12 +393,18 @@ from cities outside the state like San Francisco, Michigan, etc.</p>
 <p>Impact: This project will hopefully improve transparency on who our
 local elected officials are funded by and how much influence these
 donors have over their political decisions.</p>
-<p>Surprising findings from the story: 1. It was interesting to see that
-there are a high number of donors from outside state lines. While some
-could be just friends of the politicians, some of the donors were CEOs
-of large companies, which would be interesting to research further, and
-try to find how they influence politicians’ decisions.</p>
-<ol start="2" style="list-style-type: decimal">
+<div id="surprising-findings-from-the-story" class="section level2">
+<h2>Surprising findings from the story:</h2>
+<iframe title="Percentage of out of city contributions to politican campaigns" aria-label="Column Chart" id="datawrapper-chart-QEBOz" src="https://datawrapper.dwcdn.net/QEBOz/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="470" data-external="1">
+</iframe>
+<script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
+</script>
+<ol style="list-style-type: decimal">
+<li><p>It was interesting to see that there are a high number of donors
+from outside the city lines. While some could be just friends of the
+politicians, some of the donors were CEOs of large companies, which
+would be interesting to research further, and try to find how they
+influence politicians’ decisions.</p></li>
 <li><p>There were also a high number of donors from big oil companies,
 which is to be expected for Texas, but it would be interesting to see
 how the city council members voted on oil legislation as well.</p></li>
@@ -411,6 +421,7 @@ even know the database listed on their website existed.</p></li>
 #install.packages(&quot;rio&quot;)
 #install.packages(&quot;janitor&quot;)
 #install.packages(&quot;dplyr&quot;)</code></pre>
+</div>
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>
 <p>loading in necessary packages</p>
@@ -685,17 +696,7 @@ print(InCity_OutCity_comparison)</code></pre>
 <p>now write the csv’s out</p>
 <pre class="r"><code>write.csv(Instate_outstate_comparison, &quot;inState_outState_comparison.csv&quot;, row.names = FALSE)
 write.csv(InCity_OutCity_comparison, &quot;inCity_outCity_comparison.csv&quot;, row.names = FALSE)</code></pre>
-<p>the graphs displayed using data wrapper:</p>
-<iframe title="Percentage of out of city contributions to politican campaigns" aria-label="Column Chart" id="datawrapper-chart-QEBOz" src="https://datawrapper.dwcdn.net/QEBOz/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="470" data-external="1">
-</iframe>
-<script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
-</script>
-<iframe title="Outside city to inside city campaign contributions" aria-label="Grouped Columns" id="datawrapper-chart-fVqiA" src="https://datawrapper.dwcdn.net/fVqiA/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="481" data-external="1">
-</iframe>
-<script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();</script>
-<p>The following graphs highlight a couple of these candidates,
-especially Adrian Garcia, who have high out of city campaign donators,
-it would be interesting to see who these people are.</p>
+</div>
 </div>
 
 
