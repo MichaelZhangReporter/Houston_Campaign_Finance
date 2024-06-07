@@ -355,8 +355,60 @@ display: none;
 </div>
 
 
+<p>Name: Michael Zhang Contact Info: 832-726-2026 Date: 6/3/2024 # Who’s
+meddling in your elections:</p>
+<p>A minority of large donors have always held huge influence in Houston
+elections. In the recent mayoral race, current mayor of Houston John
+Whitmire held a huge advantage during the race with his “war chest”
+campaign funding. With ##$## 9 million dollars from donations, his
+funding pool was <a href="https://www.houstonchronicle.com/politics/houston/article/whitmire-s-spending-houston-mayor-race-double-18453375.php">30
+times</a> the size of any of his competitors’ in the Houston mayoral
+race.</p>
+<p>This trend doesn’t end with Whitmire either. Various incumbent
+Houston city council members, judges, and elected constables all have
+records showing large donations from unknown, and often out-of-state
+donors. Yet little information exists online about who these donors are,
+and more importantly, what their motivations are to funding local
+Houston politicians.</p>
+<p>Records: The data for this project comes from <a href="https://data.houstontx.gov/">The City of Houston Open Data</a>,
+which is updated and maintained by</p>
+<p>##explain where you are getting the data and provide a link ## By
+examining a datasheet listing all the candidates, amounts, and donor
+information, we can hopefully shed some more light on the background and
+motivation of local political donors. While the sheet has lacked
+sufficient updating, and its most recent update was in 2018, a lot of
+the individuals listed in the document are still currently in office,
+and it would be interesting to see where they get all their campaign
+money.</p>
+<p>Visuals: A map plotting out all the locations of people who have
+contributed to local elections in Houston politics, just from a
+preliminary examination, it looks like there are alot of donors who are
+from cities outside the state like San Francisco, Michigan, etc.</p>
+<p>Impact: This project will hopefully improve transparency on who our
+local elected officials are funded by and how much influence these
+donors have over their political decisions.</p>
+<p>Surprising findings from the story: 1. It was interesting to see that
+there are a high number of donors from outside state lines. While some
+could be just friends of the politicians, some of the donors were CEOs
+of large companies, which would be interesting to research further, and
+try to find how they influence politicians’ decisions.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><p>There were also a high number of donors from big oil companies,
+which is to be expected for Texas, but it would be interesting to see
+how the city council members voted on oil legislation as well.</p></li>
+<li><p>Also this could be another story, covering how the lack of
+transparency for this data. The excel sheet I retrieved was not updated
+properly, and when I called the city of Houston secretary, they didn’t
+even know the database listed on their website existed.</p></li>
+</ol>
+<p>Estimated delivery: June 10-15</p>
 <p>Question: Who is funding local Houston political candidates?</p>
 <p>installing basic packages if needed</p>
+<pre class="r"><code>#install.packages(&quot;openxlsx&quot;)
+#install.packages(&quot;tidyverse&quot;)
+#install.packages(&quot;rio&quot;)
+#install.packages(&quot;janitor&quot;)
+#install.packages(&quot;dplyr&quot;)</code></pre>
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>
 <p>loading in necessary packages</p>
@@ -397,6 +449,8 @@ library(openxlsx)</code></pre>
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+<p>#RSW comment - let’s figure out what this limit is all about:
+Exceeded $500 limit #RSW comment - 8th day before election</p>
 <p>looking at summary of data</p>
 <pre class="r"><code>head(Campaign_data)</code></pre>
 <pre><code>## # A tibble: 6 × 87
@@ -415,10 +469,30 @@ library(openxlsx)</code></pre>
 ## #   CandidateCommitteeZipCode &lt;chr&gt;, CandidatePhone &lt;chr&gt;,
 ## #   TreasurerFirstName &lt;chr&gt;, TreasurerLastName &lt;chr&gt;, TreasurerFullName &lt;chr&gt;,
 ## #   TreasurerAddressStreet &lt;chr&gt;, TreasurerSuite &lt;chr&gt;, TreasurerCity &lt;chr&gt;, …</code></pre>
+<pre class="r"><code>#RSW comment - look at this table below on the details of the types of donations. This is important to know these different categories
+Campaign_data %&gt;% 
+   count(MasterTransactionType) %&gt;% 
+  arrange(desc(n))</code></pre>
+<pre><code>## # A tibble: 35 × 2
+##    MasterTransactionType                                           n
+##    &lt;chr&gt;                                                       &lt;int&gt;
+##  1 Revenue                                                    111851
+##  2 Expense                                                     72919
+##  3 Political Contributions                                      4791
+##  4 Political Expenditures                                       4509
+##  5 Political Contributions Other Than Pledges or Loans          3059
+##  6 &lt;NA&gt;                                                          364
+##  7 Payment From Political Contributions To A Business Of C/OH    152
+##  8 Political Expenditure Made From Political Contributions       143
+##  9 Gains                                                         113
+## 10 Political Expenditures Made From Personal Funds                61
+## # ℹ 25 more rows</code></pre>
 <p>now I filtered for current incumbents that appeared on the campaign
 spreadsheet, creating a new spreadsheet for each individuals table</p>
 <p>Some of the names had multiple formats, so I have some variables
 listing their different formats</p>
+<p>#RSW comment - I would do a single summary table and have these
+candidates and their money for a single year</p>
 <pre class="r"><code>Sallie_Alcorn &lt;- Campaign_data %&gt;% filter(CandidateFullName %in% &quot;Sallie Alcorn&quot;)
 Willie_R_Davis &lt;- Campaign_data %&gt;% filter(CandidateFullName == &quot;Willie R Davis&quot;)
 Martha_Castex_Tatum &lt;- Campaign_data %&gt;% filter(CandidateFullName == &quot;Martha Castex-Tatum&quot;)
@@ -473,13 +547,12 @@ transaction amount</p>
   select(CampaignYear, TransactionAmount, TransactionPartyFullName, TransactionPartyEmployer, OfficeSought, TransactionAddressStreet, TransactionPartyCity, TransactionPartyOccupation) %&gt;% 
   group_by(TransactionAmount)
 write.xlsx(result, file = &quot;Sallie_Alcorn_Transactions.xlsx&quot;)</code></pre>
-<p>End product: Each of the incumbent candidates has their own
+<p>now we have each of the incumbent candidates with their own
 spreadsheet of donors, sorted by the transaction amount from highest to
-lowest</p>
-<p>Pick out location map based on current incumbents:</p>
-<pre class="r"><code>incumbent_data &lt;-  read_csv(&quot;incumbent_transactions.csv&quot;)</code></pre>
-<pre><code>## New names:
-## • `` -&gt; `...1`</code></pre>
+lowest, we wont use that for now</p>
+<p>create a incumbent transactions variable, use a secondary software to
+clean the naming conventions</p>
+<pre class="r"><code>incumbent_transactions &lt;- read_csv(&quot;incumbent_transactions_cleaned.csv&quot;)</code></pre>
 <pre><code>## Warning: One or more parsing issues, call `problems()` on your data frame for details,
 ## e.g.:
 ##   dat &lt;- vroom(...)
@@ -488,51 +561,140 @@ lowest</p>
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
 ## chr (62): CandidateOrCommittee, ReportFiledDate, CandidateFirstName, Candida...
-## dbl (16): ...1, ReportID, CampaignYear, MostRecentReportVersion, 15th day af...
+## dbl (16): Column, ReportID, CampaignYear, MostRecentReportVersion, 15th day ...
 ## lgl (10): CommitteeName, 15-Jul, BallotMeasureDescription, ExpenseCandidateB...
 ## 
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-<pre class="r"><code>incumbent_map &lt;- incumbent_data %&gt;% 
-  select(CandidateFullName, CampaignYear, TransactionAmount, TransactionPartyFullName, TransactionPartyEmployer, TransactionAddressStreet, TransactionPartyCity, TransactionPartyState, TransactionPartyOccupation, OfficeSought, TransactionType, MasterTransactionType) %&gt;% 
-  group_by(TransactionAmount)
-incumbent_map &lt;- incumbent_map %&gt;% arrange(desc(TransactionAmount))
+<p>Let’s filter our data to only include contributions and get rid of
+NAs (FOR NOW – you’ll want to explore the records that contain NAs and
+see if you can figure out why they’re there, and make sure we’re not
+losing something important by filtering these records out)</p>
+<pre class="r"><code>contributions_to_incumbents &lt;- incumbent_transactions %&gt;%
+  filter(transaction_type %in% c(&quot;Political Contributions&quot;, &quot;Monetary Political Contributions&quot;)) %&gt;%
+  filter(!is.na(transaction_amount))</code></pre>
+<p>A few candidates’ names show up as multiple values. We can use
+case_when() to standardize them.</p>
+<pre class="r"><code>contributions_to_incumbents &lt;- contributions_to_incumbents %&gt;%
+  mutate(candidate_full_name = case_when(
+    candidate_full_name == &quot;Mr. Edward Ed Gonzalez&quot; ~ &quot;Edward Ed Gonzalez&quot;,
+    candidate_full_name == &quot;Mrs. Amy Peck&quot; ~ &quot;Ms. Amy Peck&quot;,
+    candidate_full_name == &quot;Ms. Amy L Peck&quot; ~ &quot;Ms. Amy Peck&quot;,
+    .default = candidate_full_name
+  ))</code></pre>
+<p>group all contributions by person and get the sum for each
+person.</p>
+<pre class="r"><code>contr_sums_per_cand &lt;- contributions_to_incumbents %&gt;%
+  group_by(candidate_full_name) %&gt;%
+  summarise(total_contributions = sum(transaction_amount)) %&gt;%
+  arrange(desc(total_contributions))
 
-write.csv(incumbent_map, file = &quot;incumbent_map_data.csv&quot;)</code></pre>
-<p>now pull out the incumbents contributions only, not their political
-expenditures</p>
-<pre class="r"><code>contributions_variants &lt;- c(&quot;Political Contributions Other Than Pledges or Loans&quot;, &quot;Political Contributions&quot;)
+contr_sums_per_cand</code></pre>
+<pre><code>## # A tibble: 8 × 2
+##   candidate_full_name       total_contributions
+##   &lt;chr&gt;                                   &lt;dbl&gt;
+## 1 Adrian Garcia                        1745114.
+## 2 Edward Ed Gonzalez                    659938.
+## 3 Dr. Carolyn Evans-Shabazz             152735 
+## 4 Sallie Alcorn                         145907.
+## 5 Martha Castex-Tatum                   123198 
+## 6 Willie R Davis                         36125 
+## 7 Ms. Amy Peck                           14099.
+## 8 Mr. Edward J Pollard                   11285</code></pre>
+<pre class="r"><code>In_state_table &lt;- contributions_to_incumbents %&gt;%
+  group_by(candidate_full_name) %&gt;%
+  filter(str_detect(transaction_party_state, &quot;TX&quot;)) %&gt;%
+  summarise(In_state_contributions = sum(transaction_amount)) %&gt;%
+  arrange(desc(In_state_contributions))
 
-only_contributions &lt;- incumbent_map %&gt;% filter(MasterTransactionType %in% contributions_variants)
-write.csv(only_contributions, file = &quot;only_contributions.csv&quot;)</code></pre>
-<pre class="r"><code>only_contributions &lt;-  read_csv(&quot;only_contributions.csv&quot;)</code></pre>
-<pre><code>## New names:
-## Rows: 1013 Columns: 13
-## ── Column specification
-## ──────────────────────────────────────────────────────── Delimiter: &quot;,&quot; chr
-## (10): CandidateFullName, TransactionPartyFullName, TransactionPartyEmplo... dbl
-## (3): ...1, CampaignYear, TransactionAmount
-## ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-## Specify the column types or set `show_col_types = FALSE` to quiet this message.
-## • `` -&gt; `...1`</code></pre>
-<pre class="r"><code># Sum values by name using dplyr</code></pre>
-<pre class="r"><code>colnames(only_contributions)</code></pre>
-<pre><code>##  [1] &quot;...1&quot;                       &quot;CandidateFullName&quot;         
-##  [3] &quot;CampaignYear&quot;               &quot;TransactionAmount&quot;         
-##  [5] &quot;TransactionPartyFullName&quot;   &quot;TransactionPartyEmployer&quot;  
-##  [7] &quot;TransactionAddressStreet&quot;   &quot;TransactionPartyCity&quot;      
-##  [9] &quot;TransactionPartyState&quot;      &quot;TransactionPartyOccupation&quot;
-## [11] &quot;OfficeSought&quot;               &quot;TransactionType&quot;           
-## [13] &quot;MasterTransactionType&quot;</code></pre>
-<pre class="r"><code>sum_by_city &lt;- only_contributions %&gt;%
-  filter(!is.na(TransactionAmount)) %&gt;%
-  group_by(TransactionPartyCity) %&gt;%
-  summarize(total = sum(TransactionAmount))
 
-# View result
-write.csv(sum_by_city, file = &quot;sum_by_city.csv&quot;)</code></pre>
-<p>now need to compare in state contributions and out of state
-contributions</p>
+print(In_state_table)</code></pre>
+<pre><code>## # A tibble: 8 × 2
+##   candidate_full_name       In_state_contributions
+##   &lt;chr&gt;                                      &lt;dbl&gt;
+## 1 Adrian Garcia                           1675152.
+## 2 Edward Ed Gonzalez                       627471.
+## 3 Sallie Alcorn                            135177.
+## 4 Dr. Carolyn Evans-Shabazz                128260 
+## 5 Martha Castex-Tatum                      122198 
+## 6 Willie R Davis                            35575 
+## 7 Ms. Amy Peck                              12600.
+## 8 Mr. Edward J Pollard                      10785</code></pre>
+<pre class="r"><code>Instate_outstate_comparison &lt;- left_join(In_state_table, contr_sums_per_cand, by = &quot;candidate_full_name&quot;)
+Instate_outstate_comparison &lt;- Instate_outstate_comparison %&gt;%
+  mutate(in_state_percentage = In_state_contributions
+ / total_contributions)
+print(Instate_outstate_comparison)</code></pre>
+<pre><code>## # A tibble: 8 × 4
+##   candidate_full_name       In_state_contributions total_contributions
+##   &lt;chr&gt;                                      &lt;dbl&gt;               &lt;dbl&gt;
+## 1 Adrian Garcia                           1675152.            1745114.
+## 2 Edward Ed Gonzalez                       627471.             659938.
+## 3 Sallie Alcorn                            135177.             145907.
+## 4 Dr. Carolyn Evans-Shabazz                128260              152735 
+## 5 Martha Castex-Tatum                      122198              123198 
+## 6 Willie R Davis                            35575               36125 
+## 7 Ms. Amy Peck                              12600.              14099.
+## 8 Mr. Edward J Pollard                      10785               11285 
+## # ℹ 1 more variable: in_state_percentage &lt;dbl&gt;</code></pre>
+<pre class="r"><code>contr_sums_per_cand &lt;- contributions_to_incumbents %&gt;%
+  group_by(candidate_full_name) %&gt;%
+  summarise(total_contributions = sum(transaction_amount)) %&gt;%
+  arrange(desc(total_contributions))
+
+contr_sums_per_cand</code></pre>
+<pre><code>## # A tibble: 8 × 2
+##   candidate_full_name       total_contributions
+##   &lt;chr&gt;                                   &lt;dbl&gt;
+## 1 Adrian Garcia                        1745114.
+## 2 Edward Ed Gonzalez                    659938.
+## 3 Dr. Carolyn Evans-Shabazz             152735 
+## 4 Sallie Alcorn                         145907.
+## 5 Martha Castex-Tatum                   123198 
+## 6 Willie R Davis                         36125 
+## 7 Ms. Amy Peck                           14099.
+## 8 Mr. Edward J Pollard                   11285</code></pre>
+<pre class="r"><code>contr_sums_per_cand &lt;- contributions_to_incumbents %&gt;%
+  group_by(candidate_full_name) %&gt;%
+  summarise(total_contributions = sum(transaction_amount)) %&gt;%
+  arrange(desc(total_contributions))
+
+In_city_table &lt;- contributions_to_incumbents %&gt;%
+  group_by(candidate_full_name) %&gt;%
+  filter(str_detect(transaction_party_city, &quot;Houston&quot;)) %&gt;%
+  summarise(In_City_Contributions = sum(transaction_amount)) %&gt;%
+  arrange(desc(In_City_Contributions))
+
+InCity_OutCity_comparison &lt;- left_join(In_city_table, contr_sums_per_cand, by = &quot;candidate_full_name&quot;)
+InCity_OutCity_comparison &lt;- InCity_OutCity_comparison %&gt;%
+  mutate(in_city_percentage = In_City_Contributions
+ / total_contributions)
+print(InCity_OutCity_comparison)</code></pre>
+<pre><code>## # A tibble: 8 × 4
+##   candidate_full_name       In_City_Contributions total_contributions
+##   &lt;chr&gt;                                     &lt;dbl&gt;               &lt;dbl&gt;
+## 1 Adrian Garcia                          1135151.            1745114.
+## 2 Edward Ed Gonzalez                      530194.             659938.
+## 3 Sallie Alcorn                           131477.             145907.
+## 4 Dr. Carolyn Evans-Shabazz               105710              152735 
+## 5 Martha Castex-Tatum                      92585              123198 
+## 6 Willie R Davis                           27675               36125 
+## 7 Ms. Amy Peck                             10025.              14099.
+## 8 Mr. Edward J Pollard                      9235               11285 
+## # ℹ 1 more variable: in_city_percentage &lt;dbl&gt;</code></pre>
+<p>now write the csv’s out</p>
+<pre class="r"><code>write.csv(Instate_outstate_comparison, &quot;inState_outState_comparison.csv&quot;, row.names = FALSE)
+write.csv(InCity_OutCity_comparison, &quot;inCity_outCity_comparison.csv&quot;, row.names = FALSE)</code></pre>
+<p>the graphs displayed using data wrapper:</p>
+<iframe title="Percentage of out of city contributions to politican campaigns" aria-label="Column Chart" id="datawrapper-chart-QEBOz" src="https://datawrapper.dwcdn.net/QEBOz/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="470" data-external="1">
+</iframe>
+<script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();</script>
+<iframe title aria-label="Grouped Columns" id="datawrapper-chart-fVqiA" src="https://datawrapper.dwcdn.net/fVqiA/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="443" data-external="1">
+</iframe>
+<script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();</script>
+<p>The following graphs highlight a couple of these candidates,
+especially Adrian Garcia, who have high out of city campaign donators,
+it would be interested to see who these people are.</p>
 </div>
 
 
