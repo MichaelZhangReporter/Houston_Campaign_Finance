@@ -16,11 +16,11 @@ A minority of large donors have always held huge influence in Houston elections.
 
 This trend doesn’t end with Whitmire either. Various incumbent Houston city council members, judges, and elected constables all have records showing large donations from unknown, and often out-of-state donors. Yet little information exists online about who these donors are, and more importantly, what their motivations are to funding local Houston politicians. 
 
-Records: The data for this project comes from [The City of Houston Open Data](https://data.houstontx.gov/), which is updated and maintained by 
+Records: The data for this project comes from [The City of Houston Open Data](https://data.houstontx.gov/), which is updated and maintained by the City Secretary's Office. The excel sheet lists a detailed history of campaign finance transactions, containing  candidates, amounts, and donor information, from a period of 2007-2019. 
 
-##explain where you are getting the data and provide a link ## By examining a datasheet listing all the candidates, amounts, and donor information, we can hopefully shed some more light on the background and motivation of local political donors. While the sheet has lacked sufficient updating, and its most recent update was in 2018, a lot of the individuals listed in the document are still currently in office, and it would be interesting to see where they get all their campaign money.
+Using the records, we can hopefully shed some more light on the background and motivation of local political donors. While the sheet has lacked sufficient updating, and its most recent update was in 2018, a lot of the individuals listed in the document are still currently in office, and it would be interesting to see an expansive story on where they get all their campaign money, and how it influences their decisions. 
 
-Visuals: A map plotting out all the locations of people who have contributed to local elections in Houston politics, just from a preliminary examination, it looks like there are alot of donors who are from cities outside the state like San Francisco, Michigan, etc.
+Visuals: A map plotting out all the locations of people who have contributed to local elections in Houston politics, just from a preliminary examination, it looks like there are many donors who are from cities outside the state like San Francisco, Michigan, etc.
 
 Impact: This project will hopefully improve transparency on who our local elected officials are funded by and how much influence these donors have over their political decisions.
 
@@ -63,8 +63,6 @@ reading in the data
 Campaign_data <- read_csv("campaign_finance.csv")
 ```
 
-#RSW comment - let's figure out what this limit is all about: Exceeded $500 limit
-#RSW comment - 8th day before election
 
 
 looking at summary of data
@@ -258,9 +256,9 @@ write.csv(InCity_OutCity_comparison, "inCity_outCity_comparison.csv", row.names 
 
 the graphs displayed using data wrapper: 
 
-<iframe title="Percentage of out of city contributions to politican campaigns" aria-label="Column Chart" id="datawrapper-chart-QEBOz" src="https://datawrapper.dwcdn.net/QEBOz/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="470" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();</script>
+<iframe title="Percentage of out of city contributions to politican campaigns" aria-label="Column Chart" id="datawrapper-chart-QEBOz" src="https://datawrapper.dwcdn.net/QEBOz/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="470" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();
+</script>
 
-<iframe title="" aria-label="Grouped Columns" id="datawrapper-chart-fVqiA" src="https://datawrapper.dwcdn.net/fVqiA/1/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="443" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();</script>
+<iframe title="Outside city to inside city campaign contributions" aria-label="Grouped Columns" id="datawrapper-chart-fVqiA" src="https://datawrapper.dwcdn.net/fVqiA/2/" scrolling="no" frameborder="0" style="width: 0; min-width: 100% !important; border: none;" height="481" data-external="1"></iframe><script type="text/javascript">!function(){"use strict";window.addEventListener("message",(function(a){if(void 0!==a.data["datawrapper-height"]){var e=document.querySelectorAll("iframe");for(var t in a.data["datawrapper-height"])for(var r=0;r<e.length;r++)if(e[r].contentWindow===a.source){var i=a.data["datawrapper-height"][t]+"px";e[r].style.height=i}}}))}();</script>
 
-
-The following graphs highlight a couple of these candidates, especially Adrian Garcia, who have high out of city campaign donators, it would be interested to see who these people are. 
+The following graphs highlight a couple of these candidates, especially Adrian Garcia, who have high out of city campaign donators, it would be interesting to see who these people are. 
