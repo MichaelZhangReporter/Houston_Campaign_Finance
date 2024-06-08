@@ -58,6 +58,7 @@ installing basic packages if needed
 #install.packages("rio")
 #install.packages("janitor")
 #install.packages("dplyr")
+#install.packages("scales")
 ```
 
 
@@ -74,6 +75,7 @@ library(janitor)
 library(dplyr)
 library(openxlsx)
 library(kableExtra)
+library(scales)
 ```
 
 
@@ -170,6 +172,8 @@ Sallie_Alcorn <- Sallie_Alcorn %>% arrange(desc(TransactionAmount))
 
 From there, we check that the candidate spreadsheet was properly sorted based on the transaction amount
 
+Just as an example, we can use Sallie Alcorn's transaction sheet to check this
+
 
 ```{r}
 result <- Sallie_Alcorn %>% 
@@ -203,8 +207,9 @@ https://raw.githubusercontent.com/MichaelZhangReporter/Document-Chatbot/main/Alc
 
 Going forward, if we want to look at in city/ outside city contributions, we need to create a incumbent transactions variable, and use a secondary software to clean the naming conventions
 ```{r}
-
+suppressWarnings({
 incumbent_transactions <- read_csv("incumbent_transactions_cleaned.csv")
+})
 ```
 
 Let's filter our data to only include contributions and get rid of NAs (For now at least, cleaning up the data more and figuring out what the NA means is necessary for later)
@@ -268,7 +273,8 @@ contr_sums_per_cand <- contributions_to_incumbents %>%
   arrange(desc(total_contributions))
 
 top_5_data <- head(contr_sums_per_cand, 10)
-
+top_5_data <- top_5_data %>%
+  mutate(total_contributions = dollar(total_contributions))
 
 top_5_data %>%
   kable(format = "html", caption = "<b style='color:black;'>Total Incumbent Campaign Funds</b>") %>%
@@ -287,7 +293,8 @@ In_state_table <- contributions_to_incumbents %>%
   arrange(desc(In_state_contributions))
 
 top_5_data <- head(In_state_table, 8)
-
+top_5_data <- top_5_data %>%
+  mutate(In_state_contributions = dollar(In_state_contributions))
 
 top_5_data %>%
   kable(format = "html", caption = "<b style='color:black;'> Incumbent In-State Campaign Funds</b>") %>%
@@ -302,6 +309,10 @@ Instate_outstate_comparison <- Instate_outstate_comparison %>%
  / total_contributions)
 
 top_5_data <- head(Instate_outstate_comparison, 8)
+top_5_data <- top_5_data %>%
+  mutate(In_state_contributions = dollar(In_state_contributions)) %>%
+  mutate(total_contributions = dollar(total_contributions)) %>%
+  mutate(in_state_percentage = percent(in_state_percentage))
 
 
 top_5_data %>%
@@ -334,6 +345,10 @@ InCity_OutCity_comparison <- InCity_OutCity_comparison %>%
   mutate(in_city_percentage = In_City_Contributions
  / total_contributions)
 
+InCity_OutCity_comparison <- InCity_OutCity_comparison %>%
+  mutate(In_City_Contributions = dollar(In_City_Contributions)) %>%
+  mutate(total_contributions = dollar(total_contributions)) %>%
+  mutate(in_city_percentage = percent(in_city_percentage))
 
 InCity_OutCity_comparison %>%
   kable(format = "html", caption = "<b style='color:black;'>Incumbent Campaign Fund Breakdown</b>") %>%

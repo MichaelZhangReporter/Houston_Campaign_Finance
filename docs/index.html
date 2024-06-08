@@ -1775,7 +1775,8 @@ the government pays this company for its badly kept data.</p></li>
 #install.packages(&quot;tidyverse&quot;)
 #install.packages(&quot;rio&quot;)
 #install.packages(&quot;janitor&quot;)
-#install.packages(&quot;dplyr&quot;)</code></pre>
+#install.packages(&quot;dplyr&quot;)
+#install.packages(&quot;scales&quot;)</code></pre>
 </div>
 <div id="r-markdown" class="section level2">
 <h2>R Markdown</h2>
@@ -1810,6 +1811,17 @@ library(kableExtra)</code></pre>
 ## The following object is masked from &#39;package:dplyr&#39;:
 ## 
 ##     group_rows</code></pre>
+<pre class="r"><code>library(scales)</code></pre>
+<pre><code>## 
+## Attaching package: &#39;scales&#39;
+## 
+## The following object is masked from &#39;package:purrr&#39;:
+## 
+##     discard
+## 
+## The following object is masked from &#39;package:readr&#39;:
+## 
+##     col_factor</code></pre>
 <p>reading in the data</p>
 <pre class="r"><code>suppressWarnings({
 show_col_types = FALSE
@@ -1950,6 +1962,8 @@ Sallie_Alcorn &lt;- Sallie_Alcorn %&gt;% arrange(desc(TransactionAmount))
 })</code></pre>
 <p>From there, we check that the candidate spreadsheet was properly
 sorted based on the transaction amount</p>
+<p>Just as an example, we can use Sallie Alcorn’s transaction sheet to
+check this</p>
 <pre class="r"><code>result &lt;- Sallie_Alcorn %&gt;% 
   select(CampaignYear, TransactionAmount, TransactionPartyFullName, TransactionPartyEmployer, OfficeSought, TransactionAddressStreet, TransactionPartyCity, TransactionPartyOccupation, TransactionType) %&gt;% 
   group_by(TransactionAmount)
@@ -2175,11 +2189,9 @@ tab on datasette lite:</p>
 <p>Going forward, if we want to look at in city/ outside city
 contributions, we need to create a incumbent transactions variable, and
 use a secondary software to clean the naming conventions</p>
-<pre class="r"><code>incumbent_transactions &lt;- read_csv(&quot;incumbent_transactions_cleaned.csv&quot;)</code></pre>
-<pre><code>## Warning: One or more parsing issues, call `problems()` on your data frame for details,
-## e.g.:
-##   dat &lt;- vroom(...)
-##   problems(dat)</code></pre>
+<pre class="r"><code>suppressWarnings({
+incumbent_transactions &lt;- read_csv(&quot;incumbent_transactions_cleaned.csv&quot;)
+})</code></pre>
 <pre><code>## Rows: 9512 Columns: 88
 ## ── Column specification ────────────────────────────────────────────────────────
 ## Delimiter: &quot;,&quot;
@@ -2292,7 +2304,8 @@ person and get the sum for each person.</p>
   arrange(desc(total_contributions))
 
 top_5_data &lt;- head(contr_sums_per_cand, 10)
-
+top_5_data &lt;- top_5_data %&gt;%
+  mutate(total_contributions = dollar(total_contributions))
 
 top_5_data %&gt;%
   kable(format = &quot;html&quot;, caption = &quot;&lt;b style=&#39;color:black;&#39;&gt;Total Incumbent Campaign Funds&lt;/b&gt;&quot;) %&gt;%
@@ -2306,7 +2319,7 @@ top_5_data %&gt;%
 <th style="text-align:left;">
 candidate_full_name
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 total_contributions
 </th>
 </tr>
@@ -2316,64 +2329,64 @@ total_contributions
 <td style="text-align:left;">
 Adrian Garcia
 </td>
-<td style="text-align:right;">
-1745114.03
+<td style="text-align:left;">
+$1,745,114
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Edward Ed Gonzalez
 </td>
-<td style="text-align:right;">
-659938.32
+<td style="text-align:left;">
+$659,938
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Dr. Carolyn Evans-Shabazz
 </td>
-<td style="text-align:right;">
-152735.00
+<td style="text-align:left;">
+$152,735
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Sallie Alcorn
 </td>
-<td style="text-align:right;">
-145906.53
+<td style="text-align:left;">
+$145,907
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Martha Castex-Tatum
 </td>
-<td style="text-align:right;">
-123198.00
+<td style="text-align:left;">
+$123,198
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Willie R Davis
 </td>
-<td style="text-align:right;">
-36125.00
+<td style="text-align:left;">
+$36,125
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Ms. Amy Peck
 </td>
-<td style="text-align:right;">
-14098.74
+<td style="text-align:left;">
+$14,099
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Mr. Edward J Pollard
 </td>
-<td style="text-align:right;">
-11285.00
+<td style="text-align:left;">
+$11,285
 </td>
 </tr>
 </tbody>
@@ -2388,7 +2401,8 @@ Mr. Edward J Pollard
   arrange(desc(In_state_contributions))
 
 top_5_data &lt;- head(In_state_table, 8)
-
+top_5_data &lt;- top_5_data %&gt;%
+  mutate(In_state_contributions = dollar(In_state_contributions))
 
 top_5_data %&gt;%
   kable(format = &quot;html&quot;, caption = &quot;&lt;b style=&#39;color:black;&#39;&gt; Incumbent In-State Campaign Funds&lt;/b&gt;&quot;) %&gt;%
@@ -2402,7 +2416,7 @@ top_5_data %&gt;%
 <th style="text-align:left;">
 candidate_full_name
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 In_state_contributions
 </th>
 </tr>
@@ -2412,64 +2426,64 @@ In_state_contributions
 <td style="text-align:left;">
 Adrian Garcia
 </td>
-<td style="text-align:right;">
-1675152.03
+<td style="text-align:left;">
+$1,675,152
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Edward Ed Gonzalez
 </td>
-<td style="text-align:right;">
-627471.44
+<td style="text-align:left;">
+$627,471
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Sallie Alcorn
 </td>
-<td style="text-align:right;">
-135176.53
+<td style="text-align:left;">
+$135,177
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Dr. Carolyn Evans-Shabazz
 </td>
-<td style="text-align:right;">
-128260.00
+<td style="text-align:left;">
+$128,260
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Martha Castex-Tatum
 </td>
-<td style="text-align:right;">
-122198.00
+<td style="text-align:left;">
+$122,198
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Willie R Davis
 </td>
-<td style="text-align:right;">
-35575.00
+<td style="text-align:left;">
+$35,575
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Ms. Amy Peck
 </td>
-<td style="text-align:right;">
-12599.75
+<td style="text-align:left;">
+$12,600
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Mr. Edward J Pollard
 </td>
-<td style="text-align:right;">
-10785.00
+<td style="text-align:left;">
+$10,785
 </td>
 </tr>
 </tbody>
@@ -2480,6 +2494,10 @@ Instate_outstate_comparison &lt;- Instate_outstate_comparison %&gt;%
  / total_contributions)
 
 top_5_data &lt;- head(Instate_outstate_comparison, 8)
+top_5_data &lt;- top_5_data %&gt;%
+  mutate(In_state_contributions = dollar(In_state_contributions)) %&gt;%
+  mutate(total_contributions = dollar(total_contributions)) %&gt;%
+  mutate(in_state_percentage = percent(in_state_percentage))
 
 
 top_5_data %&gt;%
@@ -2494,13 +2512,13 @@ top_5_data %&gt;%
 <th style="text-align:left;">
 candidate_full_name
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 In_state_contributions
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 total_contributions
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 in_state_percentage
 </th>
 </tr>
@@ -2510,112 +2528,112 @@ in_state_percentage
 <td style="text-align:left;">
 Adrian Garcia
 </td>
-<td style="text-align:right;">
-1675152.03
+<td style="text-align:left;">
+$1,675,152
 </td>
-<td style="text-align:right;">
-1745114.03
+<td style="text-align:left;">
+$1,745,114
 </td>
-<td style="text-align:right;">
-0.9599098
+<td style="text-align:left;">
+95.99%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Edward Ed Gonzalez
 </td>
-<td style="text-align:right;">
-627471.44
+<td style="text-align:left;">
+$627,471
 </td>
-<td style="text-align:right;">
-659938.32
+<td style="text-align:left;">
+$659,938
 </td>
-<td style="text-align:right;">
-0.9508032
+<td style="text-align:left;">
+95.08%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Sallie Alcorn
 </td>
-<td style="text-align:right;">
-135176.53
+<td style="text-align:left;">
+$135,177
 </td>
-<td style="text-align:right;">
-145906.53
+<td style="text-align:left;">
+$145,907
 </td>
-<td style="text-align:right;">
-0.9264598
+<td style="text-align:left;">
+92.65%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Dr. Carolyn Evans-Shabazz
 </td>
-<td style="text-align:right;">
-128260.00
+<td style="text-align:left;">
+$128,260
 </td>
-<td style="text-align:right;">
-152735.00
+<td style="text-align:left;">
+$152,735
 </td>
-<td style="text-align:right;">
-0.8397551
+<td style="text-align:left;">
+83.98%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Martha Castex-Tatum
 </td>
-<td style="text-align:right;">
-122198.00
+<td style="text-align:left;">
+$122,198
 </td>
-<td style="text-align:right;">
-123198.00
+<td style="text-align:left;">
+$123,198
 </td>
-<td style="text-align:right;">
-0.9918830
+<td style="text-align:left;">
+99.19%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Willie R Davis
 </td>
-<td style="text-align:right;">
-35575.00
+<td style="text-align:left;">
+$35,575
 </td>
-<td style="text-align:right;">
-36125.00
+<td style="text-align:left;">
+$36,125
 </td>
-<td style="text-align:right;">
-0.9847751
+<td style="text-align:left;">
+98.48%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Ms. Amy Peck
 </td>
-<td style="text-align:right;">
-12599.75
+<td style="text-align:left;">
+$12,600
 </td>
-<td style="text-align:right;">
-14098.74
+<td style="text-align:left;">
+$14,099
 </td>
-<td style="text-align:right;">
-0.8936792
+<td style="text-align:left;">
+89.37%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Mr. Edward J Pollard
 </td>
-<td style="text-align:right;">
-10785.00
+<td style="text-align:left;">
+$10,785
 </td>
-<td style="text-align:right;">
-11285.00
+<td style="text-align:left;">
+$11,285
 </td>
-<td style="text-align:right;">
-0.9556934
+<td style="text-align:left;">
+95.57%
 </td>
 </tr>
 </tbody>
@@ -2643,6 +2661,10 @@ InCity_OutCity_comparison &lt;- InCity_OutCity_comparison %&gt;%
   mutate(in_city_percentage = In_City_Contributions
  / total_contributions)
 
+InCity_OutCity_comparison &lt;- InCity_OutCity_comparison %&gt;%
+  mutate(In_City_Contributions = dollar(In_City_Contributions)) %&gt;%
+  mutate(total_contributions = dollar(total_contributions)) %&gt;%
+  mutate(in_city_percentage = percent(in_city_percentage))
 
 InCity_OutCity_comparison %&gt;%
   kable(format = &quot;html&quot;, caption = &quot;&lt;b style=&#39;color:black;&#39;&gt;Incumbent Campaign Fund Breakdown&lt;/b&gt;&quot;) %&gt;%
@@ -2656,13 +2678,13 @@ InCity_OutCity_comparison %&gt;%
 <th style="text-align:left;">
 candidate_full_name
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 In_City_Contributions
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 total_contributions
 </th>
-<th style="text-align:right;">
+<th style="text-align:left;">
 in_city_percentage
 </th>
 </tr>
@@ -2672,112 +2694,112 @@ in_city_percentage
 <td style="text-align:left;">
 Adrian Garcia
 </td>
-<td style="text-align:right;">
-1135151.26
+<td style="text-align:left;">
+$1,135,151
 </td>
-<td style="text-align:right;">
-1745114.03
+<td style="text-align:left;">
+$1,745,114
 </td>
-<td style="text-align:right;">
-0.6504740
+<td style="text-align:left;">
+65.0%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Edward Ed Gonzalez
 </td>
-<td style="text-align:right;">
-530193.76
+<td style="text-align:left;">
+$530,194
 </td>
-<td style="text-align:right;">
-659938.32
+<td style="text-align:left;">
+$659,938
 </td>
-<td style="text-align:right;">
-0.8033990
+<td style="text-align:left;">
+80.3%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Sallie Alcorn
 </td>
-<td style="text-align:right;">
-131476.53
+<td style="text-align:left;">
+$131,477
 </td>
-<td style="text-align:right;">
-145906.53
+<td style="text-align:left;">
+$145,907
 </td>
-<td style="text-align:right;">
-0.9011011
+<td style="text-align:left;">
+90.1%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Dr. Carolyn Evans-Shabazz
 </td>
-<td style="text-align:right;">
-105710.00
+<td style="text-align:left;">
+$105,710
 </td>
-<td style="text-align:right;">
-152735.00
+<td style="text-align:left;">
+$152,735
 </td>
-<td style="text-align:right;">
-0.6921138
+<td style="text-align:left;">
+69.2%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Martha Castex-Tatum
 </td>
-<td style="text-align:right;">
-92585.00
+<td style="text-align:left;">
+$92,585
 </td>
-<td style="text-align:right;">
-123198.00
+<td style="text-align:left;">
+$123,198
 </td>
-<td style="text-align:right;">
-0.7515138
+<td style="text-align:left;">
+75.2%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Willie R Davis
 </td>
-<td style="text-align:right;">
-27675.00
+<td style="text-align:left;">
+$27,675
 </td>
-<td style="text-align:right;">
-36125.00
+<td style="text-align:left;">
+$36,125
 </td>
-<td style="text-align:right;">
-0.7660900
+<td style="text-align:left;">
+76.6%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Ms. Amy Peck
 </td>
-<td style="text-align:right;">
-10024.75
+<td style="text-align:left;">
+$10,025
 </td>
-<td style="text-align:right;">
-14098.74
+<td style="text-align:left;">
+$14,099
 </td>
-<td style="text-align:right;">
-0.7110387
+<td style="text-align:left;">
+71.1%
 </td>
 </tr>
 <tr>
 <td style="text-align:left;">
 Mr. Edward J Pollard
 </td>
-<td style="text-align:right;">
-9235.00
+<td style="text-align:left;">
+$9,235
 </td>
-<td style="text-align:right;">
-11285.00
+<td style="text-align:left;">
+$11,285
 </td>
-<td style="text-align:right;">
-0.8183429
+<td style="text-align:left;">
+81.8%
 </td>
 </tr>
 </tbody>
