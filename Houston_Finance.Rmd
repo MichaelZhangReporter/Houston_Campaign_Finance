@@ -192,6 +192,7 @@ top_5_data %>%
 
 Great, now we have seperated the dataset by incumbent, and can use that data for further analysis if needed.
 
+A good site to provide reporters this data to examine, would be through [datasette lite](https://lite.datasette.io/?csv=https%3A%2F%2Fraw.githubusercontent.com%2FMichaelZhangReporter%2FHouston_Campaign_Finance%2Fmain%2FAlcorn_Csv.csv)
 
 ## All Incumbent Transaction Analysis
 
