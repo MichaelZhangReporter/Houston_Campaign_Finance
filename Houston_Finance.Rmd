@@ -192,7 +192,11 @@ top_5_data %>%
 
 Great, now we have seperated the dataset by incumbent, and can use that data for further analysis if needed.
 
-A good site to provide reporters this data to examine, would be through [datasette lite](https://lite.datasette.io/?csv=https%3A%2F%2Fraw.githubusercontent.com%2FMichaelZhangReporter%2FDocument-Chatbot%2Fmain%2FAlcorn_Csv.csv%3Ftoken%3DGHSAT0AAAAAACTFGDPX6GPO6GDX3XZ53PWUZTD7HOQ#/data?sql=select+*+from+Alcorn_Csv)
+To make it easier for reporters to play around with this data, we could use [datasette lite](https://lite.datasette.io/). For proof of concept, feel free to load the following link in the load csv tab on datasette lite:
+
+
+https://raw.githubusercontent.com/MichaelZhangReporter/Document-Chatbot/main/Alcorn_Csv.csv?token=GHSAT0AAAAAACTFGDPXE5VCMWYEMRALODTUZTEMRWA
+
 
 ## All Incumbent Transaction Analysis
 
@@ -203,8 +207,7 @@ Going forward, if we want to look at in city/ outside city contributions, we nee
 incumbent_transactions <- read_csv("incumbent_transactions_cleaned.csv")
 ```
 
-Let's filter our data to only include contributions and get rid of NAs (FOR NOW -- you'll want to explore the records that contain NAs and see if you can figure out why they're there, and make sure we're not losing something important by filtering these records out)
-
+Let's filter our data to only include contributions and get rid of NAs (For now at least, cleaning up the data more and figuring out what the NA means is necessary for later)
 
 ```{r}
 contributions_to_incumbents <- incumbent_transactions %>%

@@ -2164,9 +2164,11 @@ Political Contributions
 </table>
 <p>Great, now we have seperated the dataset by incumbent, and can use
 that data for further analysis if needed.</p>
-<p>A good site to provide reporters this data to examine, would be
-through <a href="https://lite.datasette.io/?csv=https%3A%2F%2Fraw.githubusercontent.com%2FMichaelZhangReporter%2FDocument-Chatbot%2Fmain%2FAlcorn_Csv.csv%3Ftoken%3DGHSAT0AAAAAACTFGDPX6GPO6GDX3XZ53PWUZTD7HOQ#/data?sql=select+*+from+Alcorn_Csv">datasette
-lite</a></p>
+<p>To make it easier for reporters to play around with this data, we
+could use <a href="https://lite.datasette.io/">datasette lite</a>. For
+proof of concept, feel free to load the following link in the load csv
+tab on datasette lite:</p>
+<p><a href="https://raw.githubusercontent.com/MichaelZhangReporter/Document-Chatbot/main/Alcorn_Csv.csv?token=GHSAT0AAAAAACTFGDPXE5VCMWYEMRALODTUZTEMRWA" class="uri">https://raw.githubusercontent.com/MichaelZhangReporter/Document-Chatbot/main/Alcorn_Csv.csv?token=GHSAT0AAAAAACTFGDPXE5VCMWYEMRALODTUZTEMRWA</a></p>
 </div>
 <div id="all-incumbent-transaction-analysis" class="section level2">
 <h2>All Incumbent Transaction Analysis</h2>
@@ -2188,9 +2190,8 @@ use a secondary software to clean the naming conventions</p>
 ## ℹ Use `spec()` to retrieve the full column specification for this data.
 ## ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
 <p>Let’s filter our data to only include contributions and get rid of
-NAs (FOR NOW – you’ll want to explore the records that contain NAs and
-see if you can figure out why they’re there, and make sure we’re not
-losing something important by filtering these records out)</p>
+NAs (For now at least, cleaning up the data more and figuring out what
+the NA means is necessary for later)</p>
 <pre class="r"><code>contributions_to_incumbents &lt;- incumbent_transactions %&gt;%
   filter(transaction_type %in% c(&quot;Political Contributions&quot;, &quot;Monetary Political Contributions&quot;)) %&gt;%
   filter(!is.na(transaction_amount))</code></pre>
